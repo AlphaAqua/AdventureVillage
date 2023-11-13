@@ -11,22 +11,30 @@ namespace AdventureVillageLibrary.Game
     public class GameManager
     {
         public Game? Game { get; private set; }
-        public Owner Player { get; init; }
+        public Owner? Player { get; private set; }
 
-        public void NewGame(string gameName, Owner player)
+        public void NewGame(string gameName, string playerID, string playerName, string playerSecret)
         {
             Game = new Game(gameName);
+            Guid playerGuid = new Guid(playerID);
+            Game.NewPlayer(playerGuid, playerName, playerSecret);
         }
 
-        public string GetGameState()
+        public void LoadGame(string gameData, string playerID)
         {
-            string json = JsonSerializer.Serialize(Game);
-            return json;
+            Game? game = JsonSerializer.Deserialize<Game>(gameData);
+            if (game != null)
+            {
+                Guid playerGuid = new Guid(playerID);
+                Player = game.RetrieveGameObject<Owner>(playerGuid);
+                Game = game;
+                game.SetPlayer(playerGuid);
+            }
         }
 
-        public void SetGameState(string json, Owner player)
+        public string GetGameData()
         {
-            Game = JsonSerializer.Deserialize<Game>(json);
+            return JsonSerializer.Serialize(Game);
         }
     }
 }

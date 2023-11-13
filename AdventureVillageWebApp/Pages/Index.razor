@@ -28,9 +28,10 @@
         <div class="sidebarstatus">
             <h3>@GameTime()</h3>
             <div style="width: 20px; height: 20px; border-radius: 50%; background-color: @(GameIsRunningDegraded() ? "yellow" : GameIsRunning() ? "green" : "red")"></div>
-            <button @onclick=@(() => StartGame())>Start Game</button>
-            <button @onclick=@(() => StopGame())>Stop Game</button>
-            <button @onclick=@(() => SaveGame())>Save Game</button>
+            <button @onclick=@(() => HandleStartGame())>Start Game</button>
+            <button @onclick=@(() => HandleStopGame())>Stop Game</button>
+            <button @onclick=@(() => HandleSaveGame())>Save Game</button>
+            <button @onclick=@(() => HandleLoadGame())>Load Game</button>
         </div>
     </div>
 
@@ -54,7 +55,7 @@
         }
         else
         {
-            <NewGameView />
+            <NewGameView Player=@PlayerID />
         }
     </div>
 </div>

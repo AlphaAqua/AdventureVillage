@@ -17,7 +17,7 @@ namespace AdventureVillageWebApp.Pages
 
         public string MainVillageName()
         {
-            return MyGame?.MainVillage?.Name ?? "";
+            return MyGame?.GetVillage(MyGameManager.Player)?.Name ?? "";
         }
 
         public int NumberOfTerritories()

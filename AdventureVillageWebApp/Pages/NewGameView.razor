@@ -5,6 +5,9 @@
 <div>
     <label for="nameInput">Enter the name of your game:</label>
     <input type="text" id="gameInput" @bind="gameName" />
+
+    <label for="playernameInput">Enter the player name:</label>
+    <input type="text" id="playerInput" @bind="playerName" />
     <button @onclick=@(() => HandleNewGameSubmission())>Submit</button>
 </div>
 

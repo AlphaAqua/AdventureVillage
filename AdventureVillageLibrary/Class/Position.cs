@@ -8,8 +8,10 @@ namespace AdventureVillageLibrary.Class
 {
     public class Position
     {
-        public float X;
-        public float Y;
+        public float X = 0;
+        public float Y = 0;
+
+        public Position() { }
 
         public Position(float x, float y)
         {

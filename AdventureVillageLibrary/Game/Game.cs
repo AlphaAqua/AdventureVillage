@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using AdventureVillageLibrary.GameObjects;
 
 namespace AdventureVillageLibrary.Game
@@ -26,7 +27,8 @@ namespace AdventureVillageLibrary.Game
 
         ////////////////////////////////////
 
-        internal Game() { }
+        [JsonConstructor]
+        public Game() { }
 
         internal Game(string name, Owner? player = null)
         {
@@ -129,24 +131,21 @@ namespace AdventureVillageLibrary.Game
             return null;
         }
 
-        public Village? GetVillage(Owner owner)
+        public Village? GetVillage(Owner? owner)
         {
-            return Villages.Where(v => v.Owner == owner).First();
+            if (owner == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Villages.FirstOrDefault(v => v?.Owner == owner);
+            }
         }
 
-        //////////////////////////////////
-
-        /// <summary>
-        /// Set the default Owner for actions to the player
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns>
-        ///   true if the player already existed in the Game
-        ///   false if this is a new player, in which case it will have beed added to the game.
-        /// </returns>
-        public bool SetPlayer(Owner player)
+        public bool SetPlayer(Guid playerID)
         {
-            Owner? foundPlayer = RetrieveGameObject<Owner>(player);
+            Owner? foundPlayer = RetrieveGameObject<Owner>(playerID);
             if (foundPlayer != null)
             {
                 defaultOwner = foundPlayer;
@@ -154,10 +153,18 @@ namespace AdventureVillageLibrary.Game
             }
             else
             {
-                defaultOwner = player;
-                AddGameObject(defaultOwner);
-                return false;
+                throw new NotImplementedException();
+                //defaultOwner = player;
+                //AddGameObject(defaultOwner);
+                //return false;
             }
+        }
+
+        public void NewPlayer(Guid playerID, string name, string secret)
+        {
+            Owner newPlayer = new Owner(name, playerID, secret);
+            AddGameObject(newPlayer);
+            defaultOwner = newPlayer;
         }
     }
 }
