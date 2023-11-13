@@ -1,0 +1,61 @@
+﻿@page "/"
+
+<div class="container">
+    <div class="sidebar">
+        <div class="sidebarlist">
+            <ul>
+                @if (GameExist())
+                {
+                    @foreach (ViewsName view in Enum.GetValues(typeof(ViewsName)))
+                    {
+                        <li>
+                            <button class=@GetItemView(view) @onclick=@(() => SelectView(view))>
+                                @view.ToString()
+                            </button>
+                        </li>
+                    }                    
+                }
+                else
+                {
+                    <li>
+                        <button class="NewGame">
+                            NewGame
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="sidebarstatus">
+            <h3>@GameTime()</h3>
+            <div style="width: 20px; height: 20px; border-radius: 50%; background-color: @(GameIsRunningDegraded() ? "yellow" : GameIsRunning() ? "green" : "red")"></div>
+            <button @onclick=@(() => StartGame())>Start Game</button>
+            <button @onclick=@(() => StopGame())>Stop Game</button>
+            <button @onclick=@(() => SaveGame())>Save Game</button>
+        </div>
+    </div>
+
+
+    <!-- Content Area -->
+    <div class="content">
+        @if (GameExist())
+        {
+            @switch (CurrentView)
+            {
+                case ViewsName.General:
+                    <GeneralView />
+                    break;
+                case ViewsName.Buildings:
+                    <BuildingView />
+                    break;
+                case ViewsName.Adventurers:
+                    <AdventurerView />
+                    break;
+            }
+        }
+        else
+        {
+            <NewGameView />
+        }
+    </div>
+</div>
+

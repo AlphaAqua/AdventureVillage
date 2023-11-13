@@ -1,0 +1,10 @@
+﻿<h1>New Game</h1>
+
+<br />
+
+<div>
+    <label for="nameInput">Enter the name of your game:</label>
+    <input type="text" id="gameInput" @bind="gameName" />
+    <button @onclick=@(() => HandleNewGameSubmission())>Submit</button>
+</div>
+
